@@ -4,6 +4,7 @@
   "main": "src/app.js",
   "scripts": {
     "start:dev": "nodemon src/app.js",
+    "migrate": "node-pg-migrate",
     "lint": "eslint ./src"
   },
   "keywords": [
