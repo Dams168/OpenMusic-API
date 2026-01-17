@@ -5,6 +5,7 @@ dotenv.config();
 
 import express from 'express';
 import ErrorHandler from '../middlewares/error.js';
+import routes from '../routes/index.js';
 
 const app = express();
 
@@ -12,6 +13,9 @@ app.use(express.json());
 
 //middlewares
 app.use(ErrorHandler);
+
+//routes
+app.use('/', routes);
 
 //test route
 app.get('/', (req, res) => {
