@@ -12,7 +12,7 @@ export const createAlbum = async (req, res, next) => {
     return next(new InvariantError('Album gagal ditambahkan'));
   }
 
-  return response(res, 201, 'Album berhasil ditambahkan', { albumId: id });
+  return response(res, 201, 'Album berhasil ditambahkan', { albumId: album.id });
 };
 
 export const getAlbumById = async (req, res, next) => {

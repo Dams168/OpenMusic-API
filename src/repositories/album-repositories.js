@@ -15,7 +15,7 @@ class AlbumRepositories {
     };
 
     const result = await this.pool.query(query);
-    return result.rows[0].id;
+    return result.rows[0];
   }
 
   //   async getAlbums() {
