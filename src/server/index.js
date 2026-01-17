@@ -11,9 +11,6 @@ const app = express();
 
 app.use(express.json());
 
-//middlewares
-app.use(ErrorHandler);
-
 //routes
 app.use('/', routes);
 
@@ -21,5 +18,8 @@ app.use('/', routes);
 app.get('/', (req, res) => {
   res.send('Hello, World!');
 });
+
+//middlewares
+app.use(ErrorHandler);
 
 export default app;

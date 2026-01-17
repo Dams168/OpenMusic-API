@@ -1,18 +1,21 @@
-import InvariantError from '../../../exceptions/invariant-error.js';
-import NotFoundError from '../../../exceptions/not-found-error.js';
+import { InvariantError, NotFoundError } from '../../../exceptions/index.js';
 import albumRepositories from '../../../repositories/album-repositories.js';
 import response from '../../../utils/response.js';
 
 export const createAlbum = async (req, res, next) => {
-  const { name, year } = req.body;
+  try {
+    const { name, year } = req.validated;
 
-  const album = await albumRepositories.createAlbum({ name, year });
+    const album = await albumRepositories.createAlbum({ name, year });
 
-  if (!album) {
-    return next(new InvariantError('Album gagal ditambahkan'));
+    if (!album) {
+      return next(new InvariantError('Album gagal ditambahkan'));
+    }
+
+    return response(res, 201, 'Album berhasil ditambahkan', { albumId: album.id });
+  } catch (error) {
+    next(error);
   }
-
-  return response(res, 201, 'Album berhasil ditambahkan', { albumId: album.id });
 };
 
 export const getAlbumById = async (req, res, next) => {
@@ -29,7 +32,7 @@ export const getAlbumById = async (req, res, next) => {
 
 export const updateAlbumById = async (req, res, next) => {
   const { id } = req.params;
-  const { name, year } = req.body;
+  const { name, year } = req.validated;
 
   const album = await albumRepositories.updateAlbumById({ id, name, year });
 
