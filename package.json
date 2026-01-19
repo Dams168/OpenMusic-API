@@ -5,7 +5,7 @@
   "scripts": {
     "start:dev": "nodemon src/app.js",
     "migrate": "node-pg-migrate",
-    "lint": "eslint ./src"
+    "lint": "eslint ."
   },
   "keywords": [
     "openmusic",
@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
-    "eslint": "^8.57.1",
+    "eslint": "^9.39.2",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.32.0",
     "globals": "^17.0.0",
