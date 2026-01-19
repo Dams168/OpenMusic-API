@@ -17,8 +17,33 @@ class SongRepositories {
     return result.rows[0];
   }
 
-  async getSongs() {
-    const result = await this.pool.query('SELECT id, title, performer FROM songs');
+  async getSongs({ title, performer }) {
+    // const result = await this.pool.query('SELECT id, title, performer FROM songs');
+    // return result.rows;
+
+    let query = {
+      text: 'SELECT id, title, performer FROM songs',
+      values: [],
+    };
+
+    if (title && performer) {
+      query = {
+        text: 'SELECT id, title, performer FROM songs WHERE LOWER(title) LIKE $1 AND LOWER(performer) LIKE $2',
+        values: [`%${title.toLowerCase()}%`, `%${performer.toLowerCase()}%`],
+      };
+    } else if (title) {
+      query = {
+        text: 'SELECT id, title, performer FROM songs WHERE LOWER(title) LIKE $1',
+        values: [`%${title.toLowerCase()}%`],
+      };
+    } else if (performer) {
+      query = {
+        text: 'SELECT id, title, performer FROM songs WHERE LOWER(performer) LIKE $1',
+        values: [`%${performer.toLowerCase()}%`],
+      };
+    }
+
+    const result = await this.pool.query(query);
     return result.rows;
   }
 

@@ -21,7 +21,8 @@ export const createSong = async (req, res, next) => {
 };
 
 export const getSongs = async (req, res, next) => {
-  const songs = await songRepositories.getSongs();
+  const { title, performer } = req.query;
+  const songs = await songRepositories.getSongs({ title, performer });
   return response(res, 200, 'Lagu berhasil ditemukan', { songs });
 };
 
