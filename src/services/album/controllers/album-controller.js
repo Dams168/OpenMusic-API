@@ -23,7 +23,7 @@ export const getAlbumById = async (req, res, next) => {
 
   const datas = await albumRepositories.getAlbumById(id);
 
-  if (!datas) {
+  if (!datas[0]) {
     return next(new NotFoundError('Album tidak ditemukan'));
   }
 
