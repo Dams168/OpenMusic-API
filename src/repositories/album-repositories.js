@@ -24,13 +24,21 @@ class AlbumRepositories {
   //   }
 
   async getAlbumById(id) {
+    // const query = {
+    //   text: 'SELECT * FROM albums WHERE id = $1',
+    //   values: [id],
+    // };
+
     const query = {
-      text: 'SELECT * FROM albums WHERE id = $1',
+      text: `SELECT albums.id, albums.name, albums.year, songs.id AS song_id, songs.title, songs.performer
+      FROM albums
+      LEFT JOIN songs ON albums.id = songs.album_id
+      WHERE albums.id = $1`,
       values: [id],
     };
 
     const result = await this.pool.query(query);
-    return result.rows[0];
+    return result.rows;
   }
 
   async updateAlbumById({ id, name, year }) {
@@ -45,6 +53,19 @@ class AlbumRepositories {
   async deleteAlbumById(id) {
     const query = {
       text: 'DELETE FROM albums WHERE id = $1 RETURNING id',
+      values: [id],
+    };
+
+    const result = await this.pool.query(query);
+    return result.rows[0];
+  }
+
+  async getAlbumByidWithSongs(id) {
+    const query = {
+      text: `SELECT albums.id, albums.name, albums.year, songs.id AS song_id, songs.title, songs.performer
+      FROM albums
+      LEFT JOIN songs ON albums.id = songs.album_id
+      WHERE albums.id = $1`,
       values: [id],
     };
 

@@ -6,7 +6,7 @@ export const songPayloadSchema = Joi.object({
   performer: Joi.string().required(),
   genre: Joi.string().required(),
   duration: Joi.number().integer().optional(),
-  album_id: Joi.string().optional(),
+  albumId: Joi.string().optional(),
 });
 
 export const updateSongPayloadSchema = Joi.object({
@@ -15,5 +15,5 @@ export const updateSongPayloadSchema = Joi.object({
   performer: Joi.string().required(),
   genre: Joi.string().required(),
   duration: Joi.number().integer().optional(),
-  album_id: Joi.string().optional(),
+  albumId: Joi.string().optional(),
 });

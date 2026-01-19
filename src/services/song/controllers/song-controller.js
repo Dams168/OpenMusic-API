@@ -3,14 +3,14 @@ import songRepositories from '../../../repositories/song-repositories.js';
 import response from '../../../utils/response.js';
 
 export const createSong = async (req, res, next) => {
-  const { title, year, genre, performer, duration, album_id } = req.validated;
+  const { title, year, genre, performer, duration, albumId } = req.validated;
   const song = await songRepositories.createSong({
     title,
     year,
     genre,
     performer,
     duration,
-    album_id,
+    album_id: albumId,
   });
 
   if (!song) {

@@ -21,11 +21,28 @@ export const createAlbum = async (req, res, next) => {
 export const getAlbumById = async (req, res, next) => {
   const { id } = req.params;
 
-  const album = await albumRepositories.getAlbumById(id);
+  const datas = await albumRepositories.getAlbumById(id);
 
-  if (!album) {
+  if (!datas) {
     return next(new NotFoundError('Album tidak ditemukan'));
   }
+
+  const album = {
+    id: datas[0].id,
+    name: datas[0].name,
+    year: datas[0].year,
+    songs: [],
+  };
+
+  datas.forEach((data) => {
+    if (data.song_id) {
+      album.songs.push({
+        id: data.song_id,
+        title: data.title,
+        performer: data.performer,
+      });
+    }
+  });
 
   return response(res, 200, 'Album berhasil ditemukan', { album: album });
 };
