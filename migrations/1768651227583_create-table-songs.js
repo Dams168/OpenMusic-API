@@ -1,5 +1,3 @@
-import pg from 'pg';
-
 /**
  * @type {import('node-pg-migrate').ColumnDefinitions | undefined}
  */
