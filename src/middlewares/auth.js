@@ -1,11 +1,11 @@
-import tokenManager from '../security/token-manager';
-import response from '../utils/response';
+import tokenManager from '../security/token-manager.js';
+import response from '../utils/response.js';
 
 async function authenticateToken(req, res, next) {
   const token = req.headers.authorization;
   if (token && token.indexOf('Bearer ') !== -1) {
     try {
-      const user = await tokenManager.verify(token.split(' ')[1], process.env.ACCESS_TOKEN_KEY);
+      const user = await tokenManager.verifyAccessToken(token.split(' ')[1]);
       req.user = user;
       return next();
     } catch (error) {
