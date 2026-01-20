@@ -18,17 +18,7 @@ class AlbumRepositories {
     return result.rows[0];
   }
 
-  //   async getAlbums() {
-  //     const result = await this.pool.query('SELECT * FROM albums');
-  //     return result.rows;
-  //   }
-
   async getAlbumById(id) {
-    // const query = {
-    //   text: 'SELECT * FROM albums WHERE id = $1',
-    //   values: [id],
-    // };
-
     const query = {
       text: `SELECT albums.id, albums.name, albums.year, songs.id AS song_id, songs.title, songs.performer
       FROM albums

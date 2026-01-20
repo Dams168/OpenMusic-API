@@ -58,14 +58,6 @@ class PlaylistRepositories {
     };
     const result = await this.pool.query(query);
     return result.rows.length > 0;
-    // const result = await this.pool.query(query);
-    // if (!result.rows.length) {
-    //   return null;
-    // }
-    // if (result.rows[0].owner !== owner) {
-    //   return null;
-    // }
-    // return result.rows[0] ;
   }
 
   async addSongToPlaylist(songId, playlistId) {

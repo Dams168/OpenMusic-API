@@ -18,9 +18,6 @@ class SongRepositories {
   }
 
   async getSongs({ title, performer }) {
-    // const result = await this.pool.query('SELECT id, title, performer FROM songs');
-    // return result.rows;
-
     let query = {
       text: 'SELECT id, title, performer FROM songs',
       values: [],
