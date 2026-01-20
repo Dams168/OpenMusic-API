@@ -61,7 +61,7 @@ export const addSongToPlaylist = async (req, res, next) => {
 
   //   console.log('Playlist ID:', playlistId, 'Owner:', owner, 'Song ID:', songId);
 
-  const isOwner = await playlistRepositories.verifyPlaylistOwner(playlistId, owner);
+  const isOwner = await playlistRepositories.verifyPlaylistAccess(playlistId, owner);
   if (!isOwner) {
     return next(
       new AuthorizationError(
@@ -89,7 +89,7 @@ export const getSongsFromPlaylist = async (req, res, next) => {
     return next(new NotFoundError('Gagal mengambil lagu dari playlist. Playlist tidak ditemukan'));
   }
 
-  const isOwner = await playlistRepositories.verifyPlaylistOwner(playlistId, owner);
+  const isOwner = await playlistRepositories.verifyPlaylistAccess(playlistId, owner);
   if (!isOwner) {
     return next(
       new AuthorizationError(
@@ -127,7 +127,7 @@ export const removeSongFromPlaylistById = async (req, res, next) => {
   const { playlistId } = req.params;
   const { songId } = req.validated;
 
-  const isOwner = await playlistRepositories.verifyPlaylistOwner(playlistId, owner);
+  const isOwner = await playlistRepositories.verifyPlaylistAccess(playlistId, owner);
   if (!isOwner) {
     return next(
       new AuthorizationError(

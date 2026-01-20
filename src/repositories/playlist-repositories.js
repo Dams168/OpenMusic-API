@@ -1,9 +1,23 @@
 import { nanoid } from 'nanoid';
 import { Pool } from 'pg';
+import CollaborationRepositories from './collab-repositories.js';
 
 class PlaylistRepositories {
   constructor() {
     this.pool = new Pool();
+    this.collaborationRepositories = CollaborationRepositories;
+  }
+
+  async verifyPlaylistAccess(playlistId, userId) {
+    const ownerResult = await this.verifyPlaylistOwner(playlistId, userId);
+
+    if (ownerResult) {
+      return ownerResult;
+    }
+
+    const result = await this.collaborationRepositories.verifyCollaborator(playlistId, userId);
+
+    return result.rowCount > 0;
   }
 
   async createPlaylist({ name, owner }) {
@@ -20,8 +34,9 @@ class PlaylistRepositories {
     const query = {
       text: `SELECT playlists.id, playlists.name, users.username
       FROM playlists
+      LEFT JOIN collaborations ON playlists.id = collaborations.playlist_id
       JOIN users ON playlists.owner = users.id
-      WHERE playlists.owner = $1`,
+      WHERE playlists.owner = $1 OR collaborations.user_id = $1`,
       values: [owner],
     };
     const result = await this.pool.query(query);
