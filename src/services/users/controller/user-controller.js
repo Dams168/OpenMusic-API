@@ -1,6 +1,6 @@
 import response from '../../../utils/response.js';
 import { InvariantError, NotFoundError } from '../../../exceptions/index.js';
-import userRepositories from '../repositories/user-repositories';
+import userRepositories from '../repositories/user-repositories.js';
 
 export const createUser = async (req, res, next) => {
   const { username, password, fullname } = req.validated;
