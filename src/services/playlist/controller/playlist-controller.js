@@ -1,4 +1,5 @@
 import { AuthorizationError, InvariantError, NotFoundError } from '../../../exceptions/index.js';
+import activityRepositories from '../../../repositories/activity-repositories.js';
 import playlistRepositories from '../../../repositories/playlist-repositories.js';
 import songRepositories from '../../../repositories/song-repositories.js';
 import response from '../../../utils/response.js';
@@ -75,6 +76,14 @@ export const addSongToPlaylist = async (req, res, next) => {
   if (!playlistSong) {
     return next(new InvariantError('Gagal menambahkan lagu ke playlist'));
   }
+
+  await activityRepositories.addActivity({
+    playlistId,
+    userId: owner,
+    action: 'add',
+    songId,
+  });
+
   return response(res, 201, 'Lagu berhasil ditambahkan ke playlist', {
     playlistSongId: playlistSong.id,
   });
@@ -142,5 +151,12 @@ export const removeSongFromPlaylistById = async (req, res, next) => {
       new NotFoundError('Gagal menghapus lagu dari playlist. Lagu tidak ditemukan di playlist'),
     );
   }
+
+  await activityRepositories.addActivity({
+    playlistId,
+    userId: owner,
+    action: 'delete',
+    songId,
+  });
   return response(res, 200, 'Lagu berhasil dihapus dari playlist');
 };
