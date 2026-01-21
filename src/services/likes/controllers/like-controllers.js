@@ -47,6 +47,9 @@ export const getCountLikes = async (req, res, next) => {
   if (album.length === 0) {
     return next(new NotFoundError('Gagal mendapatkan jumlah like. Album tidak ditemukan'));
   }
-  const likeCount = await likeRepositories.getCountLikes(albumId);
+  const { count: likeCount, source } = await likeRepositories.getCountLikes(albumId);
+  if (source === 'cache') {
+    res.setHeader('X-Data-Source', 'cache');
+  }
   return response(res, 200, 'Jumlah like berhasil didapatkan', { likes: likeCount });
 };
