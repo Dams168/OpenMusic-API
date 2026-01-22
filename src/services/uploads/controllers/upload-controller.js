@@ -1,7 +1,8 @@
 import response from '../../../utils/response.js';
 import { ClientError } from '../../../exceptions/index.js';
+import uploadRepositories from '../repositories/upload-repositories.js';
 
-export const uploadImage = (req, res, next) => {
+export const uploadImage = async (req, res, next) => {
   const { id } = req.params;
 
   if (!req.file) {
@@ -12,7 +13,12 @@ export const uploadImage = (req, res, next) => {
   const port = process.env.PORT || '3000';
 
   const encodedFilename = encodeURIComponent(req.file.filename);
-  const fileLocation = `http://${host}:${port}/uploads/${encodedFilename}`;
+  const coverUrl = `http://${host}:${port}/uploads/${encodedFilename}`;
 
-  return response(res, 201, 'Sampul Berhasil diunggah', { coverUrl: fileLocation });
+  const cover = await uploadRepositories.updateCoverAlbum({
+    id,
+    coverUrl,
+  });
+
+  return response(res, 201, 'Sampul Berhasil diunggah');
 };
