@@ -20,7 +20,7 @@ class AlbumRepositories {
 
   async getAlbumById(id) {
     const query = {
-      text: `SELECT albums.id, albums.name, albums.year, songs.id AS song_id, songs.title, songs.performer
+      text: `SELECT albums.id, albums.name, albums.year, albums.cover, songs.id AS song_id, songs.title, songs.performer
       FROM albums
       LEFT JOIN songs ON albums.id = songs.album_id
       WHERE albums.id = $1`,

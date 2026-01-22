@@ -18,27 +18,25 @@ class SongRepositories {
   }
 
   async getSongs({ title, performer }) {
-    let query = {
-      text: 'SELECT id, title, performer FROM songs',
-      values: [],
-    };
+    const conditions = [];
+    const values = [];
 
-    if (title && performer) {
-      query = {
-        text: 'SELECT id, title, performer FROM songs WHERE LOWER(title) LIKE $1 AND LOWER(performer) LIKE $2',
-        values: [`%${title.toLowerCase()}%`, `%${performer.toLowerCase()}%`],
-      };
-    } else if (title) {
-      query = {
-        text: 'SELECT id, title, performer FROM songs WHERE LOWER(title) LIKE $1',
-        values: [`%${title.toLowerCase()}%`],
-      };
-    } else if (performer) {
-      query = {
-        text: 'SELECT id, title, performer FROM songs WHERE LOWER(performer) LIKE $1',
-        values: [`%${performer.toLowerCase()}%`],
-      };
+    if (title) {
+      values.push(`%${title.toLowerCase()}%`);
+      conditions.push(`LOWER(title) LIKE $${values.length}`);
     }
+
+    if (performer) {
+      values.push(`%${performer.toLowerCase()}%`);
+      conditions.push(`LOWER(performer) LIKE $${values.length}`);
+    }
+
+    const whereClause = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
+
+    const query = {
+      text: `SELECT id, title, performer FROM songs ${whereClause}`,
+      values,
+    };
 
     const result = await this.pool.query(query);
     return result.rows;

@@ -6,6 +6,9 @@ import authRoutes from '../services/authentication/routes/index.js';
 import playlistRoutes from '../services/playlist/routes/index.js';
 import collaborationRoutes from '../services/collaborations/routes/index.js';
 import activityRoutes from '../services/activity/routes/index.js';
+import likeRoutes from '../services/likes/routes/index.js';
+import exportRoutes from '../services/exports/routes/index.js';
+import uploadRoutes from '../services/uploads/routes/index.js';
 
 const router = express.Router();
 
@@ -16,5 +19,8 @@ router.use('/authentications', authRoutes);
 router.use('/playlists', playlistRoutes);
 router.use('/collaborations', collaborationRoutes);
 router.use('/playlists', activityRoutes);
+router.use('/albums', likeRoutes);
+router.use('/export', exportRoutes);
+router.use('/albums', uploadRoutes);
 
 export default router;

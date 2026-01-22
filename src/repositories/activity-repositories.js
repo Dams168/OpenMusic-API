@@ -26,6 +26,7 @@ class ActivityRepositories {
         JOIN users ON playlist_song_activities.user_id = users.id
         JOIN songs ON playlist_song_activities.song_id = songs.id
         WHERE playlist_song_activities.playlist_id = $1
+        order by playlist_song_activities.time ASC
       `,
       values: [playlistId],
     };

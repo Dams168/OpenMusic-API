@@ -1,5 +1,3 @@
-// require('dotenv').config(); // uncomment this line if you are not using ES module
-
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -10,6 +8,10 @@ import routes from '../routes/index.js';
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+//static files
+app.use('/uploads', express.static('src/services/uploads/files/images'));
 
 //routes
 app.use('/', routes);
