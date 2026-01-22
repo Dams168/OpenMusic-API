@@ -7,7 +7,6 @@ import response from '../../../utils/response.js';
 export const createPlaylist = async (req, res, next) => {
   const { name } = req.validated;
   const { userId: owner } = req.user;
-  //   console.log('USER:', req.user);
 
   const playlist = await playlistRepositories.createPlaylist({ name, owner });
 
@@ -50,17 +49,10 @@ export const addSongToPlaylist = async (req, res, next) => {
   const { playlistId } = req.params;
   const { songId } = req.validated;
 
-  //   const isPlaylistExist = await playlistRepositories.getPlaylistById(playlistId);
-  //   if (!isPlaylistExist) {
-  //     return next(new NotFoundError('Gagal menambahkan lagu ke playlist. Playlist tidak ditemukan'));
-  //   }
-
   const isSongExist = await songRepositories.getSongById(songId);
   if (!isSongExist) {
     return next(new NotFoundError('Gagal menambahkan lagu ke playlist. Lagu tidak ditemukan'));
   }
-
-  //   console.log('Playlist ID:', playlistId, 'Owner:', owner, 'Song ID:', songId);
 
   const isOwner = await playlistRepositories.verifyPlaylistAccess(playlistId, owner);
   if (!isOwner) {
@@ -111,7 +103,6 @@ export const getSongsFromPlaylist = async (req, res, next) => {
   if (songs.length === 0) {
     return next(new NotFoundError('Gagal mengambil lagu dari playlist. Playlist tidak ditemukan'));
   }
-  //   console.log('Songs from playlist:', songs);
   const playlist = {
     id: songs[0]?.playlist_id,
     name: songs[0]?.playlist_name,

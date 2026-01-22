@@ -1,5 +1,3 @@
-// require('dotenv').config(); // uncomment this line if you are not using ES module
-
 import dotenv from 'dotenv';
 dotenv.config();
 
