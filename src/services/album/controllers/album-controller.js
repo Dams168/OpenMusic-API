@@ -31,6 +31,7 @@ export const getAlbumById = async (req, res, next) => {
     id: datas[0].id,
     name: datas[0].name,
     year: datas[0].year,
+    coverUrl: datas[0].cover,
     songs: [],
   };
 
