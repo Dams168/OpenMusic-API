@@ -11,6 +11,18 @@ export const swaggerOptions = {
         url: 'http://localhost:5000',
       },
     ],
+    tags: [
+      { name: 'Auth' },
+      { name: 'Users' },
+      { name: 'Albums' },
+      { name: 'Album Likes' },
+      { name: 'Upload' },
+      { name: 'Songs' },
+      { name: 'Playlists' },
+      { name: 'Playlist Activities' },
+      { name: 'Collaborations' },
+      { name: 'Export' },
+    ],
     components: {
       securitySchemes: {
         bearerAuth: {
