@@ -6,8 +6,19 @@ export const swaggerOptions = {
       version: '1.0.0',
       description: 'API documentation for Open Music application',
     },
-    servers: {
-      url: 'http://localhost:5000',
+    servers: [
+      {
+        url: 'http://localhost:5000',
+      },
+    ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
     },
   },
 
