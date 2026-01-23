@@ -27,6 +27,7 @@ A comprehensive RESTful API for managing music, albums, playlists, and user coll
 - **File Upload**: Multer
 - **Email**: Nodemailer
 - **ID Generation**: nanoid
+- **API Documentation**: Swagger
 
 ## Prerequisites
 
@@ -84,9 +85,6 @@ REDIS_SERVER=localhost:6379
 # RABBITMQ
 RABBITMQ_SERVER=amqp://localhost
 
-# FILE UPLOAD
-HOST=localhost
-PORT=3000
 ```
 
 ### 4. Database Migration
@@ -123,6 +121,13 @@ cp .env.example .env
 # Configure consumer/.env with your credentials
 npm install
 node src/consumer.js
+```
+
+### API Documentation with Swagger
+
+```bash
+GET /api-docs - View API documentation
+
 ```
 
 ## API Endpoints
