@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //swagger setup
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 //static files
 app.use('/uploads', express.static('src/services/uploads/files/images'));
