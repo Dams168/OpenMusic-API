@@ -5,18 +5,37 @@ import Listener from './listener.js';
 import SongsService from './songsService.js';
 
 const init = async () => {
-  const songsService = new SongsService();
-  const mailSender = new MailSender();
-  const listener = new Listener(songsService, mailSender);
+  try {
+    const songsService = new SongsService();
+    const mailSender = new MailSender();
+    const listener = new Listener(songsService, mailSender);
 
-  const connection = await amqp.connect(process.env.RABBITMQ_SERVER);
-  const channel = await connection.createChannel();
+    console.log('Connecting to RabbitMQ...');
 
-  await channel.assertQueue('export:songs', {
-    durable: true,
-  });
+    const connection = await amqp.connect(process.env.RABBITMQ_URL);
 
-  channel.consume('export:songs', listener.listen, { noAck: true });
+    connection.on('error', (err) => {
+      console.error('RabbitMQ connection error:', err.message);
+    });
+
+    connection.on('close', () => {
+      console.log('RabbitMQ connection closed. Reconnecting...');
+      setTimeout(init, 5000);
+    });
+
+    const channel = await connection.createChannel();
+
+    await channel.assertQueue('export:songs', {
+      durable: true,
+    });
+
+    console.log('Consumer is listening for messages...');
+
+    channel.consume('export:songs', listener.listen, { noAck: true });
+  } catch (error) {
+    console.error('Failed to connect to RabbitMQ. Retrying in 5 seconds...');
+    setTimeout(init, 5000);
+  }
 };
 
 init();
