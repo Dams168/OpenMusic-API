@@ -14,8 +14,6 @@ services:
       - db
       - redis
       - rabbitmq
-    volumes:
-      - .:/app
     command: npm run start:dev
 
   db:
@@ -73,8 +71,6 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
-    volumes:
-      - .:/app
 
 volumes:
   postgres_data:
