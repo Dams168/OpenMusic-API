@@ -6,6 +6,7 @@ import {
   deleteAuthPayloadSchema,
   updateAuthPayloadSchema,
 } from '../validator/auth-validate.js';
+import { loginLimiter, emailLoginLimiter } from '../../../middlewares/loginLimiter.js';
 
 const router = Router();
 
@@ -105,7 +106,7 @@ const router = Router();
  *         description: Invalid refresh token
  */
 
-router.post('/', validate(createAuthPayloadSchema), login);
+router.post('/', loginLimiter, emailLoginLimiter, validate(createAuthPayloadSchema), login);
 router.put('/', validate(updateAuthPayloadSchema), refreshToken);
 router.delete('/', validate(deleteAuthPayloadSchema), logout);
 
